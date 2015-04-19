@@ -221,14 +221,25 @@ WeekendData <- filter(MyNoMissDF, DayType == "Weekend")
 ## Summarize the average number of steps for weekday and weekend dates
 AvgStepsWeekday <- summarize(group_by(WeekdayData, interval), AvgSteps = mean(steps))
 AvgStepsWeekend <- summarize(group_by(WeekendData, interval), AvgSteps = mean(steps))
+
+## Insert the factor variable indicating the day type on each data frame
+AvgStepsWeekday <- mutate(AvgStepsWeekday, DayType=factor("Weekday"))
+AvgStepsWeekend <- mutate(AvgStepsWeekend, DayType=factor("Weekend"))
+
+## Combine the data for both weekday and weekend
+AvgStepsCat <- rbind(AvgStepsWeekday, AvgStepsWeekend)
 ```
 
 
 ```r
-## Draw the 
-par(mfrow=c(2,1))
-plot(x=AvgStepsWeekend$interval, y=AvgStepsWeekend$AvgSteps, type="l", main="Weekend", xlab="Interval", ylab="Number of steps")
-plot(x=AvgStepsWeekday$interval, y=AvgStepsWeekday$AvgSteps, type="l", main="Weekday", xlab="Interval", ylab="Number of steps")
+## Install the lattice package if it is not already installed
+if (!"lattice" %in% rownames(installed.packages())){
+  install.packages("lattice")
+}
+## Import the lattice package
+library(lattice)
+## Draw the average steps against the interval for both weekend and weekday data
+xyplot(AvgSteps~interval | DayType, data=AvgStepsCat, layout=c(1,2), type="l")
 ```
 
 ![](PA1_template_files/figure-html/WeekdayVsWeekendPlot-1.png) 
