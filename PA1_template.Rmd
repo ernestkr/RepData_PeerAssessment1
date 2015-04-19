@@ -67,8 +67,9 @@ nrow(ContainsMissing)
 ```
 #### Filling in the NA values in steps with the mean of steps for that 5-minutes interval (rounded to the nearest integer)
 ```{r RepopulateMissingValues, echo=TRUE}
-# Copy the data set into a new data set
+## Copy the data set into a new data set
 MyNoMissDF <- MyDataFrame
+## For every row in which the steps is NA, insert the average steps for that 5-minutes interval index as a replacement
 for (i in 1:nrow(MyNoMissDF)){
   if (is.na(MyNoMissDF$steps[i])){
     MyNoMissDF$steps[i] <- as.integer(round(AvgStepsEachInterval$AvgSteps[AvgStepsEachInterval$interval == MyNoMissDF$interval[i]]))

@@ -129,8 +129,9 @@ nrow(ContainsMissing)</code></pre>
 </div>
 <div id="filling-in-the-na-values-in-steps-with-the-mean-of-steps-for-that-5-minutes-interval-rounded-to-the-nearest-integer" class="section level4">
 <h4>Filling in the NA values in steps with the mean of steps for that 5-minutes interval (rounded to the nearest integer)</h4>
-<pre class="r"><code># Copy the data set into a new data set
+<pre class="r"><code>## Copy the data set into a new data set
 MyNoMissDF &lt;- MyDataFrame
+## For every row in which the steps is NA, insert the average steps for that 5-minutes interval index as a replacement
 for (i in 1:nrow(MyNoMissDF)){
   if (is.na(MyNoMissDF$steps[i])){
     MyNoMissDF$steps[i] &lt;- as.integer(round(AvgStepsEachInterval$AvgSteps[AvgStepsEachInterval$interval == MyNoMissDF$interval[i]]))
